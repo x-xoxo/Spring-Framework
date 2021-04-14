@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.join.mapper.userMapper">
+
+	<insert id="insertUser" parameterType="UserVo">
+		insert into
+		user(email,pw,name)
+		values(#{email},#{password},#{username})
+	</insert>
+	
+	<select id="emailCheck" parameterType="UserVo" resultType="int">
+		SELECT COUNT(*) FROM user where email = #{email}
+	</select>
+	
+	<select id="loginCheck" parameterType="UserVo" resultType="int">
+		SELECT COUNT(*) FROM user where name = #{username} and pw = #{password} 
+	</select>
+
+</mapper>
