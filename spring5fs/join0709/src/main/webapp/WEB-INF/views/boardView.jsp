@@ -6,10 +6,12 @@
         <title>게시판</title>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
         <script type="text/javascript">
+        //$(document).ready 준비 후 실행
             $(document).ready(function(){
                 
-                var status = false; //수정과 대댓글을 동시에 적용 못하도록
+                var status = false; //수정과 대댓글을 동시에 적용 못하도록 on off를 하고 있는거죠
                 
+                //boardList.jsp로 이동
                 $("#list").click(function(){
                     location.href = "list";
                 });
@@ -17,64 +19,70 @@
                 //댓글 저장
                 $("#reply_save").click(function(){
                     
-                    //널 검사
+                    //널 검사 유효성검사
+                    //댓글 작성자
                     if($("#reply_writer").val().trim() == ""){
                         alert("이름을 입력하세요.");
                         $("#reply_writer").focus();
                         return false;
                     }
                     
+                    //댓글 패스워드
                     if($("#reply_password").val().trim() == ""){
                         alert("패스워드를 입력하세요.");
                         $("#reply_password").focus();
                         return false;
                     }
-                    
+                    //댓글 내용
                     if($("#reply_content").val().trim() == ""){
                         alert("내용을 입력하세요.");
                         $("#reply_content").focus();
                         return false;
                     }
                     
+                    //댓글내용에 개행을 추가해서 reply_content변수에 대입
                     var reply_content = $("#reply_content").val().replace("\n", "<br>"); //개행처리
                     
                     //값 셋팅
+                    //댓글 내용을 json형식으로 만들어서 objParams변수에 대입
                     var objParams = {
-                            board_id        : $("#board_id").val(),
-                            parent_id        : "0",    
-                            depth            : "0",
-                            reply_writer    : $("#reply_writer").val(),
-                            reply_password    : $("#reply_password").val(),
-                            reply_content    : reply_content
+                            board_id        : $("#board_id").val(), //게시판 글의 id
+                            parent_id        : "0",    //부모 id가 있으면 대댓글 0이면 댓글
+                            depth            : "0",    //깊이 0초과하면 대댓글 0이면 댓글
+                            reply_writer    : $("#reply_writer").val(), //댓글 작성자
+                            reply_password    : $("#reply_password").val(), //댓글 패스워드
+                            reply_content    : reply_content //댓글 내용
                     };
                     
-                    var reply_id;
+                    var reply_id; //reply_id라는 변수 만듬
                     
                     //ajax 호출
                     $.ajax({
-                        url            :    "reply/save",
-                        dataType    :    "json",
-                        contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
-                        type         :    "post",
+                        url            :    "reply/save",//controller에 replay/save으로 이동 
+                        dataType    :    "json", //데이터 형식 json
+                        contentType :    "application/x-www-form-urlencoded; charset=UTF-8",// 콘텐츠 타입 UTF-8
+                        type         :    "post",//post형식이로 값을 넘긴다.
                         async        :     false, //동기: false, 비동기: ture
-                        data        :    objParams,
-                        success     :    function(retVal){
+                        data        :    objParams,//데이터
+                        success     :    function(retVal){//성공하면 실행
  
                             if(retVal.code != "OK") {
-                                alert(retVal.message);
-                                return false;
+                                alert(retVal.message); //팝업에 retVal.message을 띄웁니다.
+                                return false;//리턴 false 끝냈다.
                             }else{
                                 reply_id = retVal.reply_id;
                             }
                             
                         },
-                        error        :    function(request, status, error){
+                        error        :    function(request, status, error){//에러가 발생하면 실행
                             console.log("AJAX_ERROR");
                         }
                     });
                     
+                    ///////////////////////////////////////////////////////////////////////
                     var reply_area = $("#reply_area");
-                    
+                    //#replay_area의 객체를 가지고 와서 replay_area에 대입을 합니다.
+                    //reply 변수에 HTML 태그 문자열을 대입했습니다.
                     var reply = 
                         '<tr reply_type="main">'+
                         '    <td width="820px">'+
@@ -93,10 +101,10 @@
                         '    </td>'+
                         '</tr>';
                         
-                     if($('#reply_area').contents().size()==0){
-                         $('#reply_area').append(reply);
+                     if($('#reply_area').contents().size()==0){ //댓글에 콘텐츠의 사이즈가 0이면 실행
+                         $('#reply_area').append(reply);//reply담긴 HTML 문자열 태그가 #replay_arear 영역에 추가가 됩니다. 
                      }else{
-                         $('#reply_area tr:last').after(reply);
+                         $('#reply_area tr:last').after(reply); //#replay_area에 tr:last 행에 마지막에 after 뒤에서 reply를 붙힌다.
                      }
  
                     //댓글 초기화
@@ -105,15 +113,17 @@
                     $("#reply_content").val("");
                     
                 });
+                /////////////////////댓글 추가/////////////////////////////////////////////////
                 
                 //댓글 삭제
                 $(document).on("click","button[name='reply_del']", function(){
                     
                     var check = false;
-                    var reply_id = $(this).attr("reply_id");
-                    var r_type = $(this).attr("r_type");
-                    var reply_password = "reply_password_"+reply_id;
+                    var reply_id = $(this).attr("reply_id"); //reply_id attr 속성을 가져와서 reply_id변수에 대입
+                    var r_type = $(this).attr("r_type"); //r_type attr 속성을 가져와서 r_type변수에 대입
+                    var reply_password = "reply_password_"+reply_id; //reply_password_+replay_id를 추가한 문자열을 reply_password변수에 대입
                     
+                    //패스워드 유효성 검사
                     if($("#"+reply_password).val().trim() == ""){
                         alert("패스워드을 입력하세요.");
                         $("#"+reply_password).focus();
@@ -121,40 +131,40 @@
                     }
                     
                     //패스워드와 아이디를 넘겨 삭제를 한다.
-                    //값 셋팅
+                    //값 셋팅 Json
                     var objParams = {
-                            reply_password    : $("#"+reply_password).val(),
-                            reply_id        : reply_id,
-                            r_type            : r_type
+                            reply_password    : $("#"+reply_password).val(), //비밀번호값
+                            reply_id        : reply_id, //id
+                            r_type            : r_type //r_type
                     };
                     
                     //ajax 호출
                     $.ajax({
-                        url            :    "reply/del",
-                        dataType    :    "json",
+                        url            :    "reply/del", //controller에 replay/del으로 이동 
+                        dataType    :    "json", //데이터 형식은 json
                         contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
                         type         :    "post",
                         async        :     false, //동기: false, 비동기: ture
                         data        :    objParams,
                         success     :    function(retVal){
  
-                            if(retVal.code != "OK") {
-                                alert(retVal.message);
-                            }else{
+                            if(retVal.code != "OK") { //OK 아니면 실행
+                                alert(retVal.message); //메시지 팝업 띄워줍니다.
+                            }else{//ok이면
                                 
-                                check = true;
+                                check = true;//check 변수를 true을 대입
                                                                 
                             }
                             
                         },
-                        error        :    function(request, status, error){
+                        error        :    function(request, status, error){//ajax 에러가 발생할 때 실행
                             console.log("AJAX_ERROR");
                         }
                     });
                     
-                    if(check){
+                    if(check){ //check가 true이면 실행
                         
-                        if(r_type=="main"){//depth가 0이면 하위 댓글 다 지움
+                        if(r_type=="main"){//depth가 0이면 하위 댓글 다 지움 main 댓글 밑에 있는 대댓글 다지운다.
                             //삭제하면서 하위 댓글도 삭제
                             var prevTr = $(this).parent().parent().next(); //댓글의 다음
                             
@@ -171,7 +181,7 @@
                     }
                     
                 });
-                
+                ////////////////////////////////////////////////////////////////////////////////////////04.15
                 //댓글 수정 입력
                 $(document).on("click","button[name='reply_modify']", function(){
                     
