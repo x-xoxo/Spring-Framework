@@ -578,7 +578,7 @@
                     
                     var reply = 
                         '<tr reply_type="sub">'+
-                        '    <td width="820px"> → '+
+                        '    <td width="820px"> ㄴ '+
                         reply_reply_content_val+
                         '    </td>'+
                         '    <td width="100px">'+

@@ -5,14 +5,14 @@
 <html>
 <head>
 <!-- import -->
-<!-- jquery :  HTML의 클라이언트 사이드 조작을 단순화 하도록 설계된 크로스 플랫폼의 자바스크립트 라이브러리다. -->
+<!-- jQuery :  HTML의 클라이언트 사이드 조작을 단순화 하도록 설계된 크로스 플랫폼의 자바스크립트 라이브러리다. -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <!--materialize 디자인  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 <!--validate 유효성검사  -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 
-<!-- 위에 import한 것을 가지고 만드는 javascript -->
+<!-- 위에 import한 것을 가지고 만드는 JavaScript -->
 <script type="text/javascript">
 $(function (){
 	//login-form 관련 유효성검사
@@ -177,7 +177,7 @@ $(function (){
           
         </div>
         <div class="input-field col s12">
-          <p class="margin center medium-small sign-up">Already have an account? <a href="/login">Login</a></p>
+          <p class="margin center medium-small sign-up">Already have an account? <a href="/myapp/">Login</a></p>
         </div>
       </div>
 

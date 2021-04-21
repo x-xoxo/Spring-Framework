@@ -74,18 +74,18 @@ public class HomeController {
 		
 		//이메일 확인여부 후에 추가해주세요.
 		
-		if(us.checkEmail(uv) == 0)
+		if(us.checkEmail(uv) == 0) //아 이메일이 중복된게 없구나
 		{
 			us.insertUser(uv);
 		}
 		else
 		{
-			System.out.println("이메일이 있습니다.");
+			System.out.println("이메일이 있습니다."); //이메일이 있습니다.
 		}
 		
 		
 		
-		return "home";
+		return "login"; //home.jsp가 출력된다.
 	}
 	
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
@@ -97,7 +97,7 @@ public class HomeController {
 			System.out.println("올바른 이름과 암호가 아닙니다.");
 		else
 			System.out.println("환영합니다.");
-		return "home";
+		return "login";
 	}
 	
 	

@@ -5,6 +5,7 @@
 
 <mapper namespace="com.join.mapper.userMapper">
 
+     <!-- 주석 SQL테이블 명은 user 속성 email, pw, name 문자열로 새로 테이블을 만들어주세요. -->
 	<insert id="insertUser" parameterType="UserVo">
 		insert into
 		user(email,pw,name)

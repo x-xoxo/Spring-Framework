@@ -43,7 +43,7 @@
             date_format(register_datetime, '%Y-%m-%d %H:%i:%s') register_datetime
         from
             board
-        order by id
+        order by id desc
         limit #{start}, #{end}
     </select>
     <select id="selectContentView" resultType="com.join.dto.Board" parameterType="java.util.HashMap">

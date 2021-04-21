@@ -37,6 +37,7 @@ public class BoardDAOImpl implements BoradDAO{
     
     @Override
     public List<Board> getContentList(Map<String, Object> paramMap) {
+    	//SelectList 목록이 나오는거죠
         return sqlSession.selectList(Namespace+".selectContent", paramMap);
     }
  
