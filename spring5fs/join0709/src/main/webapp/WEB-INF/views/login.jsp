@@ -73,7 +73,7 @@ $(".login-form").validate({
             <!-- <i class="mdi-social-person-outline prefix"></i> -->
             <i class="material-icons prefix">account_circle</i>
             <input id="username" name="username" type="text" style= "background: white" />
-            <label for="username" data-error="wrong" class="center-align" data-success="right">Username</label>            
+            <label for="username" data-error="wrong" data-success="right">Username</label>            
           </div>
         </div>
         <!-- Password 입력하는 div -->
